@@ -2,11 +2,11 @@ $(function () {
     skinChanger();
     activateNotificationAndTasksScroll();
 
-    setSkinListHeightAndScroll();
-    setSettingListHeightAndScroll();
+    setSkinListHeightAndScroll(true);
+    setSettingListHeightAndScroll(true);
     $(window).resize(function () {
-        setSkinListHeightAndScroll();
-        setSettingListHeightAndScroll();
+        setSkinListHeightAndScroll(false);
+        setSettingListHeightAndScroll(false);
     });
 });
 
@@ -26,17 +26,19 @@ function skinChanger() {
 }
 
 //Skin tab content set height and show scroll
-function setSkinListHeightAndScroll() {
+function setSkinListHeightAndScroll(isFirstTime) {
     var height = $(window).height() - ($('.navbar').innerHeight() + $('.right-sidebar .nav-tabs').outerHeight());
     var $el = $('.demo-choose-skin');
 
-    $el.slimScroll({ destroy: true }).height('auto');
-    $el.parent().find('.slimScrollBar, .slimScrollRail').remove();
+    if (!isFirstTime){
+      $el.slimScroll({ destroy: true }).height('auto');
+      $el.parent().find('.slimScrollBar, .slimScrollRail').remove();
+    }
 
     $el.slimscroll({
         height: height + 'px',
         color: 'rgba(0,0,0,0.5)',
-        size: '4px',
+        size: '6px',
         alwaysVisible: false,
         borderRadius: '0',
         railBorderRadius: '0'
@@ -44,17 +46,19 @@ function setSkinListHeightAndScroll() {
 }
 
 //Setting tab content set height and show scroll
-function setSettingListHeightAndScroll() {
+function setSettingListHeightAndScroll(isFirstTime) {
     var height = $(window).height() - ($('.navbar').innerHeight() + $('.right-sidebar .nav-tabs').outerHeight());
     var $el = $('.right-sidebar .demo-settings');
 
-    $el.slimScroll({ destroy: true }).height('auto');
-    $el.parent().find('.slimScrollBar, .slimScrollRail').remove();
+    if (!isFirstTime){
+      $el.slimScroll({ destroy: true }).height('auto');
+      $el.parent().find('.slimScrollBar, .slimScrollRail').remove();
+    }
 
     $el.slimscroll({
         height: height + 'px',
         color: 'rgba(0,0,0,0.5)',
-        size: '4px',
+        size: '6px',
         alwaysVisible: false,
         borderRadius: '0',
         railBorderRadius: '0'
@@ -72,3 +76,32 @@ function activateNotificationAndTasksScroll() {
         railBorderRadius: '0'
     });
 }
+
+//Google Analiytics ======================================================================================
+addLoadEvent(loadTracking);
+var trackingId = 'UA-30038099-6';
+
+function addLoadEvent(func) {
+    var oldonload = window.onload;
+    if (typeof window.onload != 'function') {
+        window.onload = func;
+    } else {
+        window.onload = function () {
+            oldonload();
+            func();
+        }
+    }
+}
+
+function loadTracking() {
+    (function (i, s, o, g, r, a, m) {
+        i['GoogleAnalyticsObject'] = r; i[r] = i[r] || function () {
+            (i[r].q = i[r].q || []).push(arguments)
+        }, i[r].l = 1 * new Date(); a = s.createElement(o),
+        m = s.getElementsByTagName(o)[0]; a.async = 1; a.src = g; m.parentNode.insertBefore(a, m)
+    })(window, document, 'script', 'https://www.google-analytics.com/analytics.js', 'ga');
+
+    ga('create', trackingId, 'auto');
+    ga('send', 'pageview');
+}
+//========================================================================================================
